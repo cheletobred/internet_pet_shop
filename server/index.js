@@ -2,6 +2,7 @@ import express from 'express'
 import config from 'dotenv/config'
 import sequelize from './sequelize.js'
 import { Cart, Category, Clients } from './models/mapping.js'
+import Product from './models/Product.js'
 
 
 const PORT = process.env.PORT
@@ -48,9 +49,9 @@ async function addClients(fio, contactInfo) {
 const start = async () => {
     try {
         await sequelize.authenticate()
-        await sequelize.sync({force: true})
+        await sequelize.sync({force: false})
         app.listen(PORT, () => console.log('Сервер запущен на порту', PORT))
-        await addClients("Воробьева Виктория Исламовна",
+        /*await addClients("Воробьева Виктория Исламовна",
           {"phone": "89000184226",
             "email": "vicka.vorobjeva2017@yandex.ru"
           })
@@ -61,7 +62,9 @@ const start = async () => {
         await addCategory("Кошки","Товары для кошек")
         await addCategory("Грызуны","Товары для грызунов")
         await addCategory("Птицы","Товары для птиц")
-        //await addCart(0.0, 3)
+        //await addCart(0.0, 3)*/
+        //await Product.addProduct(10000, 'Шапка', 'Шапка для собак', null, 800, 5, 'summer', 'Собаки')
+        await Product.getOne('10000')
     } catch(e) {
         console.log(e)
     }
