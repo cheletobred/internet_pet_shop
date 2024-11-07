@@ -8,24 +8,24 @@ const PORT = process.env.PORT
 
 const app = express()
 
-async function addClients(FIO_clients, contact_info) {
+async function addClients(fio, contactInfo) {
     try {
       const clients = await Clients.create({
-        FIO_clients,
-        contact_info,
+        fio,
+        contactInfo,
       });
       console.log('Clients created:', clients.toJSON());
-      addCart(0, clients.id_clients)
+      addCart(0, clients.idClient)
     } catch (error) {
       console.error('Error creating clients:', error);
     }
   }
 
-  async function addCategory(name_category, description_category) {
+  async function addCategory(nameCat, description) {
     try {
       const category = await Category.create({
-        name_category,
-        description_category,
+        nameCat,
+        description,
       });
       console.log('Category created:', category.toJSON());
     } catch (error) {
@@ -33,11 +33,11 @@ async function addClients(FIO_clients, contact_info) {
     }
   }
 
-  async function addCart(total_price_cart, id_clients) {
+  async function addCart(totalPrice, idClient) {
     try {
       const cart = await Cart.create({
-        total_price_cart,
-        id_clients,
+        totalPrice,
+        idClient,
       });
       console.log('Cart created:', cart.toJSON());
     } catch (error) {
@@ -48,7 +48,7 @@ async function addClients(FIO_clients, contact_info) {
 const start = async () => {
     try {
         await sequelize.authenticate()
-        await sequelize.sync({force: false})
+        await sequelize.sync({force: true})
         app.listen(PORT, () => console.log('Сервер запущен на порту', PORT))
         await addClients("Воробьева Виктория Исламовна",
           {"phone": "89000184226",
