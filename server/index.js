@@ -64,7 +64,7 @@ const start = async () => {
         await addCategory("Птицы","Товары для птиц")
         //await addCart(0.0, 3)*/
         //await Product.addProduct(10000, 'Шапка', 'Шапка для собак', null, 800, 5, 'summer', 'Собаки')
-        await Product.getOne('10000')
+        console.log(await Product.getOne(10000))
     } catch(e) {
         console.log(e)
     }
