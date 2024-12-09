@@ -88,74 +88,6 @@
     margin-left: 10px;
     letter-spacing: 2px;
 }
-.chevron{
-    width: 60px;
-    height: 60px;
-    background-color: white;
-    border-radius: 50%;
-    border-style: hidden;
-}
-
-.slider {
-    margin-top: 50px;
-    display: flex; /* Включаем Flexbox */
-    justify-content: center; /* Центрируем карточки по горизонтали */
-    align-items: center; /* Центрируем карточки по вертикали */
-    align-self: center; /* Задаем высоту контейнера */
-    gap: 20px;
-    height: 100%;
-}
-.card {
-    padding: 10px;
-    width: 200px;
-    height: 250px;
-    border-radius: 20px;
-    margin: 0;
-    background-color: white;
-}
-.text-card {
-    font-family: "Montserrat";
-    justify-self: center;
-    font-size: 15px;
-    text-align: center;
-}
-
-.fav {
-    width: 20px;
-    height: 20px;
-    filter: invert(1);
-}
-
-.fav-button {
-    background-color: transparent; 
-    width:fit-content;
-    height: fit-content;
-    display: flex;
-    border: 0;
-    justify-self: right;
-}
-
-.content-card {
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    display: flex;
-    gap: 10px;
-}
-
-.price-card {
-    width: 90px;
-    height: 40px;
-    background-color: black;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    border: 0;
-}
-
-.price-card:active {
-    background-color: rgba(255, 98, 0, 1);
-}
 
 .link {
     text-decoration: none;
@@ -165,12 +97,69 @@
 .link:active {
     text-decoration:underline;
 }
-.card-link {
-    display: flex; 
-    flex-direction: column;
-    align-items: center;
+
+.article-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.article-box {
+    display: flex;
+    gap: 5px;
+    font-size: 20px;
+    font-family: "Montserrat";
+}
+
+.buttons {
+    display: flex;
+    gap: 50px;
+    margin-right: 300px;
+}
+
+.button-fav-cart {
+    display: flex;
     gap: 10px;
-    text-decoration: none;
-    color: black;
-    
+    justify-content: center;
+    align-items: center;
+    width: 180px;;
+    height: 60px;
+    background-color: black;
+    border: 0;
+
+}
+
+.text-button {
+    font-size: 15px;
+    font-family: "Montserrat";
+    color: white;
+}
+
+.button-fav-cart:active {
+    background-color: rgba(255, 98, 0, 1);
+}
+
+.img-card {
+    width: 400px;
+    height: 400px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    margin-left: 30px;
+}
+
+.img-describe {
+    display: flex;
+    gap: 100px;
+}
+.short-describes {
+    display: flex;
+    gap: 5px;
+}
+
+.describe {
+    font-size: 20px;
+    font-family: "Montserrat";
 }

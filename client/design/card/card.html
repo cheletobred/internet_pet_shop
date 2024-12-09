@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная страница</title>
+    <title>Карточка товара</title>
 </head>
 <body class="body">
-    <link rel="stylesheet" href="head.css">
+    <link rel="stylesheet" href="card.css">
     <header>
         <div class="hat">
                     <div class="logotip">
@@ -25,7 +25,7 @@
                     </div>
                     </div>
                     <div class="navigation">
-                        <div>Главная</div>
+                        <a href="C:/Users/vicka/Desktop/PetShop/client/design/head/head.html" class="link">Главная</a>
                         <a href="C:/Users/vicka/Desktop/PetShop/client/design/catalog/catalog.html" class="link">Каталог</a>
                         <a href="C:/Users/vicka/Desktop/PetShop/client/design/favorite/favorite.html" class="link">Избранное</a>
                         <a href="C:/Users/vicka/Desktop/PetShop/client/design/profile/profile-data/profile-data.html"class="link">Профиль</a>
@@ -43,72 +43,49 @@
         </div>
     </header>
     <div class="head">
-        <span class="heading">Рекомендации по сезонам</span>
+        <span class="heading">Теплая попона для собак</span>
     </div>
-    <div class="slider">
-        <button class="chevron">
-            <img src="png/chevron.png">
-        </button>
-        <div class="card">
-            <button class="fav-button">
-                <img class="fav" src="png/fav.png">
-            </button>
-            <div class="content-card">
-                <a href="C:/Users/vicka/Desktop/PetShop/client/design/card/card.html" class="card-link">
-                    <img src="png/1.png" alt="onecard" width="120px" height="150px">
-                    <div class="text-card">Теплая попона для собак</div>
-                </a>
-                <button class="price-card" style="justify-content: center; align-items: center;">
-                    <p class="text-card" style="color: white;font-size: 15px;">899 Р</p>
-                </button>
+    <div class="content">
+        <div class="article-buttons">
+            <div class="article-box">
+                <p>Артикул:</p>
+                <p class="article">10000</p>
             </div>
-        </div>
-        <div class="card">
-            <button class="fav-button">
-                <img class="fav" src="png/fav.png">
-            </button>
-            <div class="content-card">
-                <a href="C:/Users/vicka/Desktop/PetShop/client/design/card/card.html" class="card-link">
-                    <img src="png/2.png" alt="onecard" width="120px" height="150px">
-                    <div class="text-card">Теплая попона для собак</div>
-                </a>
-                <button class="price-card" style="justify-content: center; align-items: center;">
-                    <p class="text-card" style="color: white;font-size: 15px;">899 Р</p>
+            <div class="buttons">
+                <button class="button-fav-cart">
+                    <img src="png/fav.png" style="height: 30px; width: 30px; filter:grayscale(1)">
+                    <p class="text-button">В избранное</p>
                 </button>
-            </div>
-        </div>
-        <div class="card">
-            <button class="fav-button">
-                <img class="fav" src="png/fav.png">
-            </button>
-            <div class="content-card">
-                <a href="C:/Users/vicka/Desktop/PetShop/client/design/card/card.html" class="card-link">
-                    <img src="png/3.png" alt="onecard" width="120px" height="150px">
-                    <div class="text-card">Теплая попона для собак</div>
-                </a>
-                <button class="price-card" style="justify-content: center; align-items: center;">
-                    <p class="text-card" style="color: white;font-size: 15px;">899 Р</p>
+                <button class="button-fav-cart">
+                    <img src="png/cart.png" style="height: 30px; width: 30px; filter: invert(1);">
+                    <p class="text-button">В корзину</p>
                 </button>
-            </div>
-        </div>
-        <div class="card">
-            <button class="fav-button">
-                <img class="fav" src="png/fav.png">
-            </button>
-            <div class="content-card">
-                <a href="C:/Users/vicka/Desktop/PetShop/client/design/card/card.html" class="card-link">
-                    <img src="png/1.png" alt="onecard" width="120px" height="150px">
-                    <div class="text-card">Теплая попона для собак</div>
-                </a>
-                <button class="price-card" style="justify-content: center; align-items: center;">
-                    <p class="text-card" style="color: white;font-size: 15px;">899 Р</p>
-                </button>
-            </div>
-        </div>
-        <button class="chevron">
-            <img src="png/chevron.png" style="transform: scaleX(-1)";>
-        </button>
-    </div>
-    
-</body>
 
+            </div>
+        </div>
+        <div class="img-describe">
+            <div class="img-card">
+                <img src="png/1.png" style="width:200pxpx; height: 300px ;">
+            </div>
+            <div class="describe">
+                <div class="short-describes">
+                    <p>Краткое описание:</p>
+                    <p class="short-describe">Эта попона теплая и она для собак</p>
+                </div>
+                <div class="short-describes">
+                    <p>Страна прозводства:</p>
+                    <p class="country">Россия</p>
+                </div>
+                <div class="short-describes">
+                    <p>Размер:</p>
+                    <p class="size">Large</p>
+                </div>
+                <div class="short-describes">
+                    <p>Возраст:</p>
+                    <p class="age">Adult</p>
+                </div>
+                <div class="short-describes" style="margin-top:90px; font-size: 40px;">899 P</div>
+            </div>
+        </div>
+    </div>
+</body>
