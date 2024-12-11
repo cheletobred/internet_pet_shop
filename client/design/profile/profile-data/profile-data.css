@@ -94,6 +94,80 @@
     color: black;
 }
 
-.link:active {
-    text-decoration:underline;
+.buttons-data-order {
+    display: flex;
+    margin-top: 50px;
+    margin-left: 50px;
+    gap: 40px;
+}
+
+.data-order {
+    font-family: "Montserrat";
+    color: white;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-size: 15px;
+    width: 200px;
+    height: 50px;
+    background-color: black ;
+    border: none;
+}
+
+
+.data-order:active {
+    background-color: rgba(255, 98, 0, 1);
+}
+
+.column {
+    gap: 50px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.field {
+    font-family: "Montserrat";
+    font-size: 15px;
+    display: flex;
+    gap: 20px;
+}
+
+.fields {
+    gap: 100px;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+.data {
+    width: 300px;
+    height: 40px;
+    background-color: white;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.buttons-change {
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+    gap: 40px;
+}
+
+.changer {
+    font-family: "Montserrat";
+    color: white;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-size: 15px;
+    width: 200px;
+    height: 50px;
+    background-color: black ;
+    border: none;
+}
+
+.changer:active {
+    background-color: rgba(255, 98, 0, 1);
 }
