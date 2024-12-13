@@ -11,7 +11,7 @@ const Cart = sequelize.define('carts', {
     id: false
 })
 
-const CartItems = sequelize.define('cart_items', {
+const CartProducts = sequelize.define('cart_products', {
     quantity: {type: DataTypes.INTEGER, allowNull: false},
     price: {type: DataTypes.DOUBLE}
 },{
@@ -26,10 +26,12 @@ const Category = sequelize.define('category', {
     id: false
 })
 
-const Clients = sequelize.define('clients', {
-    idClient: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    fio:{type: DataTypes.STRING(255)},
-    contactInfo: {type: DataTypes.JSON}
+const Users = sequelize.define('users', {
+    idUser: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, allowNull: false},
+    email: {type: DataTypes.STRING, unique: true},
+    password: {type: DataTypes.STRING},
+    role: {type: DataTypes.STRING, defaultValue: 'USER'}
 },{
     timestamps: false,
     id: false
@@ -91,6 +93,7 @@ const Products = sequelize.define('product', {
     volume: {type: DataTypes.DOUBLE},
     price: {type: DataTypes.DOUBLE},
     quantityStock: {type: DataTypes.INTEGER},
+    image: {type: DataTypes.STRING, allowNull: false},
     season: {type: DataTypes.ENUM('spring', 'summer', 'autumn', 'winter')}
 },{
     timestamps: false,
@@ -110,8 +113,8 @@ const Subcategory = sequelize.define('subcategory', {
 Payments.belongsTo(Orders,  {foreignKey: 'idOrder', type: DataTypes.INTEGER})
 Orders.hasMany(Payments,  {foreignKey: 'idOrder'})
 
-Orders.belongsTo(Clients, {foreignKey: 'idClient', type: DataTypes.INTEGER})
-Clients.hasMany(Orders, {foreignKey: 'idClient'})
+Orders.belongsTo(Users, {foreignKey: 'idUser', type: DataTypes.INTEGER})
+Users.hasMany(Orders, {foreignKey: 'idUser'})
 
 OrderItems.belongsTo(Orders, {foreignKey: 'idOrder', type: DataTypes.INTEGER})
 Orders.hasMany(OrderItems, {foreignKey: 'idOrder'})
@@ -119,14 +122,14 @@ Orders.hasMany(OrderItems, {foreignKey: 'idOrder'})
 OrderItems.belongsTo(Products, {foreignKey: 'article', type: DataTypes.INTEGER})
 Products.hasMany(OrderItems, {foreignKey: 'article'})
 
-CartItems.belongsTo(Products, {foreignKey: 'article', type: DataTypes.INTEGER})
-Products.hasMany(CartItems, {foreignKey: 'article'})
+CartProducts.belongsTo(Products, {foreignKey: 'article', type: DataTypes.INTEGER})
+Products.hasMany(CartProducts, {foreignKey: 'article'})
 
-CartItems.belongsTo(Cart, {foreignKey: "idCart", type: DataTypes.INTEGER})
-Cart.hasMany(CartItems, {foreignKey: "idCart"})
+CartProducts.belongsTo(Cart, {foreignKey: "idCart", type: DataTypes.INTEGER})
+Cart.hasMany(CartProducts, {foreignKey: "idCart"})
 
-Cart.hasOne(Clients, {foreignKey: 'idClient', type: DataTypes.INTEGER})
-Clients.hasOne(Cart, {foreignKey: 'idClient'})
+Cart.hasOne(Users, {foreignKey: 'idUser', type: DataTypes.INTEGER})
+Users.hasOne(Cart, {foreignKey: 'idUser'})
  
 Image.hasOne(Products, {foreignKey: 'article', type: DataTypes.INTEGER})
 Products.hasOne(Image, {foreignKey: 'article'})
@@ -137,8 +140,8 @@ Products.hasOne(Favourites, {foreignKey: "article"})
 FavouritesItems.belongsTo(Favourites, {foreignKey: 'id_fav', type: DataTypes.INTEGER})
 Favourites.hasMany(FavouritesItems, {foreignKey: 'id'})
 
-Favourites.hasOne(Clients, {foreignKey: 'idClient', type: DataTypes.INTEGER})
-Clients.hasOne(Favourites, {foreignKey: 'idClient'})
+Favourites.hasOne(Users, {foreignKey: 'idUser', type: DataTypes.INTEGER})
+Users.hasOne(Favourites, {foreignKey: 'idUser'})
 
 Products.belongsTo(Category, {foreignKey: 'nameCat', type: DataTypes.STRING(255)})
 Category.hasMany(Products, {foreignKey: 'nameCat'})
@@ -148,9 +151,9 @@ Category.hasMany(Subcategory, {foreignKey: 'nameCat'})
 
 export {
     Cart,
-    CartItems,
+    CartProducts,
     Category,
-    Clients,
+    Users,
     Favourites,
     FavouritesItems,
     Image,

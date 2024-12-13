@@ -1,38 +1,59 @@
 import { Products as ProductMapping } from "./mapping.js"
+import FileService from '../services/File.js'
+import AppError from '../errors/AppError.js'
 
 class Product {
-    static async getOne(article) {
-      const product = await ProductMapping.findByPk(article)
-      if (!product) {
-        throw new Error(`Товар не найден`);
-      }
-      return product;
+    async getAll() {
+        const products = await ProductMapping.findAll()
+        return products
     }
-    static async create(article, name, description, volume, price, quantityStock, season, nameCat) {
-        try {
-          const product = await ProductMapping.create({
-            article, name, description, volume, price, quantityStock, season, nameCat
-          });
-          console.log('Продукт успешно создан:', product.toJSON());
-        } catch (error) {
-          console.error('Ошибка создания продукта:', error);
-        }
-      }
-<<<<<<< HEAD
 
-      
-=======
-      static async deleteProduct(article){
+    async getOne(article) {
         const product = await ProductMapping.findByPk(article)
-        if (product==false){
-          console.log('Продукт не найден')
+        if (!product) {
+            throw new Error('Товар не найден в БД')
         }
-        else {
-          await product.destroy()
-          console.log('Продукт успешно удален')
+        return product
+    }
+
+    async create(data, img) {
+        const {article, name, description, volume, price, quantityStock, season, nameCat} = data
+        const image = FileService.save(img) ?? ''
+        const product = await ProductMapping.create({
+            article, name, description, volume, price, quantityStock, image, season, nameCat
+          });
+        return product
+    }
+
+    async update(article, data, img) {
+        const product = await ProductMapping.findByPk(article)
+        if (!product) {
+            throw new Error('Товар не найден в БД')
         }
-      static
+        const file = FileService.save(img)
+        // если загружено новое изображение — надо удалить старое
+        if (file && product.image) {
+            FileService.delete(product.image)
+        }
+        
+        const {
+            name = product.name,
+            price = product.price,
+            description = product.description,
+            quantityStock = product.quantityStock,
+            image = file ? file : product.image
+        } = data
+        await product.update({name, price, description, quantityStock, image})
+        return product
+    }
+
+    async delete(article) {
+        const product = await ProductMapping.findByPk(article)
+        if (!product) {
+            throw new Error('Товар не найден в БД')
+        }
+        await product.destroy()
+        return product
+    }
 }
->>>>>>> 761ac219c170dbc984f1d8105eb8bfe613072efc
-}
-export default Product;
+export default new Product;

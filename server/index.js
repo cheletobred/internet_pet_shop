@@ -2,8 +2,11 @@ import express from 'express'
 import cors from 'cors'
 import config from 'dotenv/config'
 import sequelize from './sequelize.js'
-import { Cart, Category, Clients } from './models/mapping.js'
-import Product from './models/Product.js'
+import * as mapping from './models/mapping.js'
+import ErrorHandler from './middleware/ErrorHandler.js'
+import fileUpload from 'express-fileupload'
+import router from './routes/index.js'
+//import Product from './models/Product.js'
 
 
 const PORT = process.env.PORT
@@ -11,6 +14,15 @@ const PORT = process.env.PORT
 const app = express()
 app.use(cors())
 app.use(express.json())
+
+app.use(fileUpload())
+app.use(express.urlencoded({ extended: true }));
+
+app.use('/api', router)
+
+// обработка ошибок
+app.use(ErrorHandler)
+
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello, world!')
@@ -20,7 +32,7 @@ app.post('/', (req, res) => {
   res.status(200).json(req.body)
 })
 
-async function addClients(fio, contactInfo) {
+/* async function addClients(fio, contactInfo) {
     try {
       const clients = await Clients.create({
         fio,
@@ -55,7 +67,7 @@ async function addClients(fio, contactInfo) {
     } catch (error) {
       console.error('Error creating cart:', error);
     }
-  }
+  } */
 
 const start = async () => {
     try {
@@ -74,14 +86,8 @@ const start = async () => {
         await addCategory("Грызуны","Товары для грызунов")
         await addCategory("Птицы","Товары для птиц")
         //await addCart(0.0, 3)*/
-<<<<<<< HEAD
         //await Product.addProduct(10000, 'Шапка', 'Шапка для собак', null, 800, 5, 'summer', 'Собаки')
         //console.log(await Product.getOne(10000))
-=======
-       // await Product.addProduct(10001, 'Шапка', 'Шапка для собак', null, 800, 5, 'summer', 'Собаки')
-        //console.log(await Product.getOne(10000))
-        Product.deleteProduct(10000)
->>>>>>> 761ac219c170dbc984f1d8105eb8bfe613072efc
     } catch(e) {
         console.log(e)
     }
