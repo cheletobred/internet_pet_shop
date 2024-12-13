@@ -74,8 +74,14 @@ const start = async () => {
         await addCategory("Грызуны","Товары для грызунов")
         await addCategory("Птицы","Товары для птиц")
         //await addCart(0.0, 3)*/
+<<<<<<< HEAD
         //await Product.addProduct(10000, 'Шапка', 'Шапка для собак', null, 800, 5, 'summer', 'Собаки')
         //console.log(await Product.getOne(10000))
+=======
+       // await Product.addProduct(10001, 'Шапка', 'Шапка для собак', null, 800, 5, 'summer', 'Собаки')
+        //console.log(await Product.getOne(10000))
+        Product.deleteProduct(10000)
+>>>>>>> 761ac219c170dbc984f1d8105eb8bfe613072efc
     } catch(e) {
         console.log(e)
     }
