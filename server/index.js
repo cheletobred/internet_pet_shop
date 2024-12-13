@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import config from 'dotenv/config'
 import sequelize from './sequelize.js'
 import { Cart, Category, Clients } from './models/mapping.js'
@@ -8,6 +9,16 @@ import Product from './models/Product.js'
 const PORT = process.env.PORT
 
 const app = express()
+app.use(cors())
+app.use(express.json())
+
+app.get('/', (req, res) => {
+  res.status(200).send('Hello, world!')
+})
+
+app.post('/', (req, res) => {
+  res.status(200).json(req.body)
+})
 
 async function addClients(fio, contactInfo) {
     try {
@@ -49,7 +60,7 @@ async function addClients(fio, contactInfo) {
 const start = async () => {
     try {
         await sequelize.authenticate()
-        await sequelize.sync({force: false})
+        await sequelize.sync({force: true})
         app.listen(PORT, () => console.log('Сервер запущен на порту', PORT))
         /*await addClients("Воробьева Виктория Исламовна",
           {"phone": "89000184226",
@@ -64,7 +75,7 @@ const start = async () => {
         await addCategory("Птицы","Товары для птиц")
         //await addCart(0.0, 3)*/
         //await Product.addProduct(10000, 'Шапка', 'Шапка для собак', null, 800, 5, 'summer', 'Собаки')
-        console.log(await Product.getOne(10000))
+        //console.log(await Product.getOne(10000))
     } catch(e) {
         console.log(e)
     }
