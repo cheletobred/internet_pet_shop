@@ -31,7 +31,6 @@ class Product {
             throw new Error('Товар не найден в БД')
         }
         const file = FileService.save(img)
-        // если загружено новое изображение — надо удалить старое
         if (file && product.image) {
             FileService.delete(product.image)
         }
@@ -55,5 +54,11 @@ class Product {
         await product.destroy()
         return product
     }
+    static async getBySeason(season) {
+        const query = 'SELECT * FROM products WHERE season = ?';
+        const [rows] = await db.execute(query, [season]);
+        return rows;
+    }
+    
 }
 export default new Product;

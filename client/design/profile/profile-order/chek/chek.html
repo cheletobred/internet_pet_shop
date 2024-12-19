@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная страница</title>
+    <title>Чек</title>
 </head>
 <body class="body">
-    <link rel="stylesheet" href="head.css">
-    <script src="head.js"></script>
+    <link rel="stylesheet" href="chek.css">
     <header>
         <div class="hat">
                     <div class="logotip">
@@ -26,10 +25,10 @@
                     </div>
                     </div>
                     <div class="navigation">
-                        <div>Главная</div>
+                        <a href="C:/Users/vicka/Desktop/PetShop/client/design/head/head.html" class="link">Главная</a>
                         <a href="C:/Users/vicka/Desktop/PetShop/client/design/catalog/catalog.html" class="link">Каталог</a>
                         <a href="C:/Users/vicka/Desktop/PetShop/client/design/favorite/favorite.html" class="link">Избранное</a>
-                        <a href="C:/Users/vicka/Desktop/PetShop/client/design/profile/profile-data/profile-data.html"class="link">Профиль</a>
+                        <a href="C:/Users/vicka/Desktop/PetShop/client/design/profile/profile-data/profile-data.html" class="link">Профиль</a>
                     </div>
                     <div class="cart-container">
                         <a href="C:/Users/vicka/Desktop/PetShop/client/design/cart/cart.html" class="cart">
@@ -44,75 +43,24 @@
         </div>
     </header>
     <div class="head">
-        <span class="heading">Рекомендации по сезонам</span>
+        <span class="heading">Чек</span>
     </div>
-    <div class="slider">
-        <button class="chevron">
-            <img src="png/chevron.png">
-        </button>
-        <div class="content" style="display: flex; gap: 20px">
-            <div id="product-container" class="card">
-                <button class="fav-button">
-                    <img class="fav" src="png/fav.png">
-                </button>
-                <div class="content-card">
-                    <div class="article" hidden>10001</div>
-                    <a href="C:/Users/vicka/Desktop/PetShop/client/design/card/card.html" class="card-link">
-                        <img src="png/1.png" alt="onecard" width="120px" height="150px">
-                        <div class="text-card">Теплая попона для собак</div>
-                    </a>
-                    <button class="price-card" style="justify-content: center; align-items: center;">
-                        <p class="text-card" style="color: white;font-size: 15px;">899 Р</p>
-                    </button>
-                </div>
+    <div class="chek">
+        <p class="text-chek" style="font-weight: 700; font-size: 30px; justify-self: center;">Кассовый чек</p>
+        <div class="info">
+            <div class="left">
+                <p class="text-chek" style="width: 300px;">123456, г. Могилев ул. Пушкина, д. Колотушкина, стр.1</p>
             </div>
-            <div class="card">
-                <button class="fav-button">
-                    <img class="fav" src="png/fav.png">
-                </button>
-                <div class="content-card">
-                    <a href="C:/Users/vicka/Desktop/PetShop/client/design/card/card.html" class="card-link">
-                        <img src="png/2.png" alt="onecard" width="120px" height="150px">
-                        <div class="text-card">Теплая попона для собак</div>
-                    </a>
-                    <button class="price-card" style="justify-content: center; align-items: center;">
-                        <p class="text-card" style="color: white;font-size: 15px;">899 Р</p>
-                    </button>
-                </div>
-            </div>
-            <div class="card">
-                <button class="fav-button">
-                    <img class="fav" src="png/fav.png">
-                </button>
-                <div class="content-card">
-                    <a href="C:/Users/vicka/Desktop/PetShop/client/design/card/card.html" class="card-link">
-                        <img src="png/3.png" alt="onecard" width="120px" height="150px">
-                        <div class="text-card">Теплая попона для собак</div>
-                    </a>
-                    <button class="price-card" style="justify-content: center; align-items: center;">
-                        <p class="text-card" style="color: white;font-size: 15px;">899 Р</p>
-                    </button>
-                </div>
-            </div>
-            <div class="card">
-                <button class="fav-button">
-                    <img class="fav" src="png/fav.png">
-                </button>
-                <div class="content-card">
-                    <a href="C:/Users/vicka/Desktop/PetShop/client/design/card/card.html" class="card-link">
-                        <img src="png/1.png" alt="onecard" width="120px" height="150px">
-                        <div class="text-card">Теплая попона для собак</div>
-                    </a>
-                    <button class="price-card" style="justify-content: center; align-items: center;">
-                        <p class="text-card" style="color: white;font-size: 15px;">899 Р</p>
-                    </button>
-                </div>
+            <div class="right">
+                <p class="text-chek">17.11.2024</p>
+                <p class="text-chek">Кассир автоматическое устройство</p>
+                <div class="number-chek">
+                    <p class="text-chek">Чек</p>
+                    <p class="text-chek">№10</p>  
+                </div>      
             </div>
         </div>
-        <button class="chevron">
-            <img src="png/chevron.png" style="transform: scaleX(-1)";>
-        </button>
+        <div style="height: 1px; width:auto; background-color: black;"></div>
+        
     </div>
-    
 </body>
-

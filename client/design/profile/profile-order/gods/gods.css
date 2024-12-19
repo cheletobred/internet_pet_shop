@@ -94,6 +94,15 @@
     color: black;
 }
 
+
+.list {
+    margin-top: 10px; 
+    gap: 20px; 
+    margin-left: 10px; 
+    font-size: 15px;
+    font-family: "Montserrat";
+}
+
 .card {
     padding: 10px;
     width: 200px;
@@ -121,6 +130,7 @@
     height: fit-content;
     display: flex;
     border: 0;
+    justify-self: right;
 }
 
 .content-card {
@@ -129,6 +139,7 @@
     flex-direction: column;
     display: flex;
     gap: 10px;
+    z-index:3;
 }
 
 .price-card {
@@ -139,34 +150,20 @@
     display: flex;
     align-items: center;
     border: 0;
+    z-index: 1;
 }
 
-.link {
-    text-decoration: none;
-    color: black;
-}
-
-.link:active {
-    text-decoration:underline;
-}
-.card-link {
-    display: flex; 
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: black;
-    
+.price-card:active {
+    background-color: rgba(255, 98, 0, 1);
 }
 
 .cads {
-    display: flex;
-    gap: 40px;
+    display: flex; /* Включаем Flexbox */
+    gap: 50px;
 }
 
 .string {
     margin-bottom: 20px;
-    margin-top: 30px;
 }
 .card-link {
     display: flex; 
@@ -178,94 +175,10 @@
     
 }
 
-.content {
-    justify-self: center;
-}
-
-.delete {
-    width: 20px;
-    height: 20px;
-}
-
-.delete-button {
-    background-color: transparent; 
-    width:fit-content;
-    height: fit-content;
+.gods {
     display: flex;
-    border: 0;
-}
-
-.button-delete-fav {
-    display: flex;
-    justify-content: space-between;
-}
-
-.number {
-    font-family: "Montserrat";
-    font-size: 20px;
-    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 30px;
-}
-
-.add {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent; 
-    width:20px;
-    height: 20px;
-    display: flex;
-    border: 0;
-    border-radius: 50px;
-}
-
-.del {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent; 
-    width:20px;
-    height: 20px;
-    display: flex;
-    border: 0;
-    border-radius: 50px;
-}
-
-.del:active {
-    background-color: rgb(200, 200, 200);
-    opacity: 50%;
-}
-
-.add:active {
-    background-color: rgb(200, 200, 200);
-    opacity: 50%;
-}
-
-.total {
-    font-family: "Montserrat";
-    font-size: 30px;
-    justify-self: right;
-    margin-top: 70px;
-}
-.amount-price {
-    display: flex;
-    gap: 10px;
-}
-.arrange {
-    width: 150px;
-    height: 50px;
-    background-color: black;
-    border: none;
-    font-family: "Montserrat";
-    color: white;
-    font-size: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.arrange:active {
-    background-color: rgba(255, 98, 0, 1);
+    margin-top: 30px;
 }

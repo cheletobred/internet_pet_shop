@@ -54,4 +54,9 @@ Content-Disposition: form-data; name="image"; filename="picture.jpg"
 Content-Type: image/jpeg
 
 < ./picture.jpg
---MultiPartFormDataBoundary--
+--MultiPartFormDataBoundary-->
+
+
+GET http://localhost:5433/api/products/seasonal?season=summer HTTP/1.1
+Accept: application/json
+
