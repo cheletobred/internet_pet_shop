@@ -56,7 +56,6 @@ Content-Type: image/jpeg
 < ./picture.jpg
 --MultiPartFormDataBoundary-->
 
-
 GET http://localhost:5433/api/products/seasonal?season=summer HTTP/1.1
 Accept: application/json
 
