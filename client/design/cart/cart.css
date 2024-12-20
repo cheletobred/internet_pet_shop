@@ -161,12 +161,13 @@
 
 .cads {
     display: flex;
-    gap: 40px;
+    gap: 50px;
 }
 
 .string {
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     margin-top: 30px;
+
 }
 .card-link {
     display: flex; 
@@ -247,7 +248,7 @@
     font-family: "Montserrat";
     font-size: 30px;
     justify-self: right;
-    margin-top: 70px;
+    margin: 70px;
 }
 .amount-price {
     display: flex;
@@ -269,3 +270,24 @@
 .arrange:active {
     background-color: rgba(255, 98, 0, 1);
 }
+
+.notification {
+    font-family: "Montserrat";
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+  
+  .notification.show {
+    display: block;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  
