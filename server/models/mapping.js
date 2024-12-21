@@ -3,26 +3,31 @@ import database from 'sequelize'
 
 const { DataTypes } = database
 
-const Cart = sequelize.define('carts', {
+const Cart = sequelize.define('cart', {
     idCart: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     totalPrice: {type: DataTypes.DOUBLE, defaultValue: 0.0, allowNull: false}
 }, {
     timestamps: false,
+    freezeTableName: true,
     id: false
 })
 
-const CartProducts = sequelize.define('cart_products', {
+const CartProducts = sequelize.define('cart_product', {
+    idCartItems: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     quantity: {type: DataTypes.INTEGER, allowNull: false},
     price: {type: DataTypes.DOUBLE}
 },{
-    timestamps: false
+    timestamps: false,
+    freezeTableName: true
 })
 
 const Category = sequelize.define('category', {
-    nameCat: {type: DataTypes.STRING(255), primaryKey: true},
+    idCategory: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    nameCategory: {type: DataTypes.STRING(255)},
     description: {type: DataTypes.TEXT},
 },{
     timestamps: false,
+    freezeTableName: true,
     id: false
 })
 
@@ -30,8 +35,9 @@ const Users = sequelize.define('users', {
     idUser: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, allowNull: false},
     email: {type: DataTypes.STRING, unique: true},
+    sex: {type: DataTypes.ENUM('Мужской', 'Женский')},
     password: {type: DataTypes.STRING},
-    role: {type: DataTypes.STRING, defaultValue: 'USER'}
+    role: {type: DataTypes.ENUM('ADMIN', 'USER'), defaultValue: 'USER'}
 },{
     timestamps: false,
     id: false
@@ -45,32 +51,22 @@ const Favourites = sequelize.define('favourites', {
 })
 
 const FavouritesItems = sequelize.define('favourites_items', {
-    priceFav: {type: DataTypes.DOUBLE}
+    idFavItems: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 },{
     timestamps: false
 })
 
-const Image = sequelize.define('image_product', {
-    idImg: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    image: {type: DataTypes.JSON}
-},{
-    timestamps: false,
-    id: false
-})
-
 const Orders = sequelize.define('orders', {
     idOrder: {type: DataTypes.INTEGER, primaryKey: true},
-    dateOrder: {type: DataTypes.DATE},
-    orderPrice: {type: DataTypes.DOUBLE}
+    date: {type: DataTypes.DATE}
 },{
     timestamps: false,
     id: false
 })
 
 const OrderItems = sequelize.define('order_items', {
-    idOrderItem: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    quantity: {type: DataTypes.INTEGER},
-    priceOrderItem: {type: DataTypes.DOUBLE}
+    idOrderItems: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    quantity: {type: DataTypes.INTEGER}
 },{
     timestamps: false,
     id: false
@@ -78,9 +74,7 @@ const OrderItems = sequelize.define('order_items', {
 
 const Payments = sequelize.define('payments', {
     idPay: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    status: {type: DataTypes.STRING(255)},
-    amount: {type: DataTypes.DOUBLE},
-    datePayments:{type: DataTypes.DATE},
+    status: {type: DataTypes.STRING(255)}
 },{
     timestamps: false,
     id: false
@@ -88,24 +82,28 @@ const Payments = sequelize.define('payments', {
 
 const Products = sequelize.define('product', {
     article: {type: DataTypes.INTEGER, primaryKey: true},
-    name: {type: DataTypes.STRING(255)},
+    nameProduct: {type: DataTypes.STRING(255)},
     description: {type: DataTypes.TEXT},
     volume: {type: DataTypes.DOUBLE},
-    price: {type: DataTypes.DOUBLE},
+    size: {type: DataTypes.STRING(30)},
+    country: {type: DataTypes.STRING(30)},
+    age: {type: DataTypes.STRING(30)},
+    price: {type: DataTypes.DECIMAL},
     quantityStock: {type: DataTypes.INTEGER},
     image: {type: DataTypes.STRING, allowNull: false},
-    season: {type: DataTypes.ENUM('spring', 'summer', 'autumn', 'winter')}
+    season: {type: DataTypes.ENUM('весна', 'осень', 'зима', 'лето')}
 },{
     timestamps: false,
     id: false
 })
 
 const Subcategory = sequelize.define('subcategory', {
-    idSubCat: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING(255)},
+    idSubCategory: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    nameSubCategory: {type: DataTypes.STRING(255)},
     description: {type: DataTypes.TEXT}
 },{
     timestamps: false,
+    freezeTableName: true,
     id: false
 })
 
@@ -122,6 +120,9 @@ Orders.hasMany(OrderItems, {foreignKey: 'idOrder'})
 OrderItems.belongsTo(Products, {foreignKey: 'article', type: DataTypes.INTEGER})
 Products.hasMany(OrderItems, {foreignKey: 'article'})
 
+Cart.belongsToMany(Products, { through: CartProducts, onDelete: 'CASCADE', foreignKey: 'idCart', type: DataTypes.INTEGER })
+Products.belongsToMany(Cart, { through: CartProducts, onDelete: 'CASCADE', foreignKey: "article", type: DataTypes.INTEGER })
+
 CartProducts.belongsTo(Products, {foreignKey: 'article', type: DataTypes.INTEGER})
 Products.hasMany(CartProducts, {foreignKey: 'article'})
 
@@ -130,24 +131,21 @@ Cart.hasMany(CartProducts, {foreignKey: "idCart"})
 
 Cart.hasOne(Users, {foreignKey: 'idUser', type: DataTypes.INTEGER})
 Users.hasOne(Cart, {foreignKey: 'idUser'})
- 
-Image.hasOne(Products, {foreignKey: 'article', type: DataTypes.INTEGER})
-Products.hasOne(Image, {foreignKey: 'article'})
 
 FavouritesItems.hasOne(Products, {foreignKey: 'article', type: DataTypes.INTEGER})
 Products.hasOne(Favourites, {foreignKey: "article"})
 
-FavouritesItems.belongsTo(Favourites, {foreignKey: 'id_fav', type: DataTypes.INTEGER})
-Favourites.hasMany(FavouritesItems, {foreignKey: 'id'})
+FavouritesItems.belongsTo(Favourites, {foreignKey: 'idFav', type: DataTypes.INTEGER})
+Favourites.hasMany(FavouritesItems, {foreignKey: 'idFav'})
 
 Favourites.hasOne(Users, {foreignKey: 'idUser', type: DataTypes.INTEGER})
 Users.hasOne(Favourites, {foreignKey: 'idUser'})
 
-Products.belongsTo(Category, {foreignKey: 'nameCat', type: DataTypes.STRING(255)})
-Category.hasMany(Products, {foreignKey: 'nameCat'})
+Products.belongsTo(Category, {foreignKey: 'idCategory', type: DataTypes.STRING(255)})
+Category.hasMany(Products, {foreignKey: 'idCategory'})
 
-Subcategory.belongsTo(Category, {foreignKey: 'nameCat', type: DataTypes.STRING(255)})
-Category.hasMany(Subcategory, {foreignKey: 'nameCat'})
+Subcategory.belongsTo(Category, {foreignKey: 'idCategory', type: DataTypes.STRING(255)})
+Category.hasMany(Subcategory, {foreignKey: 'idCategory'})
 
 export {
     Cart,
@@ -156,7 +154,6 @@ export {
     Users,
     Favourites,
     FavouritesItems,
-    Image,
     OrderItems,
     Orders,
     Payments,

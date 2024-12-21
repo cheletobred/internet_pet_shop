@@ -3,8 +3,13 @@ import FileService from '../services/File.js'
 import AppError from '../errors/AppError.js'
 
 class Product {
-    async getAll() {
-        const products = await ProductMapping.findAll()
+    async getAll(params) {
+        const { idCategory } = params
+        const where = {}
+        if (idCategory) {
+            where.idCategory = idCategory
+        }
+        const products = await ProductMapping.findAll({where})
         return products
     }
 
@@ -17,10 +22,10 @@ class Product {
     }
 
     async create(data, img) {
-        const {article, name, description, volume, price, quantityStock, season, nameCat} = data
+        const {article, nameProduct, description, volume, size, country, age, price, quantityStock, season, idCategory} = data
         const image = FileService.save(img) ?? ''
         const product = await ProductMapping.create({
-            article, name, description, volume, price, quantityStock, image, season, nameCat
+            article, nameProduct, description, volume, size, country, age, price, quantityStock, image, season, idCategory
           });
         return product
     }
@@ -36,7 +41,7 @@ class Product {
         }
         
         const {
-            name = product.name,
+            name = product.nameProduct,
             price = product.price,
             description = product.description,
             quantityStock = product.quantityStock,
@@ -54,10 +59,20 @@ class Product {
         await product.destroy()
         return product
     }
-    static async getBySeason(season) {
+/*     static async getBySeason(season) {
         const query = 'SELECT * FROM products WHERE season = ?';
         const [rows] = await db.execute(query, [season]);
         return rows;
+    } */
+
+    async getBySeason(params) {
+        const { season } = params
+        const where = {}
+        if (season) {
+            where.season = season
+        }
+        const products = await ProductMapping.findAll({where})
+        return products
     }
     
 }

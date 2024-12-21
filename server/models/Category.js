@@ -7,8 +7,8 @@ class Category {
         return categories
     }
 
-    async getOne(nameCat) {
-        const category = await CategoryMapping.findByPk(nameCat)
+    async getOne(idCategory) {
+        const category = await CategoryMapping.findByPk(idCategory)
         if (!category) {
             throw new Error('Категория не найдена в БД')
         }
@@ -16,23 +16,23 @@ class Category {
     }
 
     async create(data) {
-        const {nameCat, description} = data
-        const category = await CategoryMapping.create({nameCat, description})
+        const {nameCategory, description} = data
+        const category = await CategoryMapping.create({nameCategory, description})
         return category
     }
 
-    async update(article, data) {
-        const category = await CategoryMapping.findByPk(article)
+    async update(idCategory, data) {
+        const category = await CategoryMapping.findByPk(idCategory)
         if (!category) {
             throw new Error('Категория не найдена в БД')
         }
-        const {description = category.description} = data
-        await category.update({description})
+        const {name = category.nameCategory, description = category.description} = data
+        await category.update({name, description})
         return category
     }
 
-    async delete(article) {
-        const category = await CategoryMapping.findByPk(article)
+    async delete(idCategory) {
+        const category = await CategoryMapping.findByPk(idCategory)
         if (!category) {
             throw new Error('Категория не найдена в БД')
         }

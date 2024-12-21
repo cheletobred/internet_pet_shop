@@ -7,6 +7,7 @@ import ErrorHandler from './middleware/ErrorHandler.js'
 import fileUpload from 'express-fileupload'
 import router from './routes/index.js'
 import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
 //import Product from './models/Product.js'
 
 
@@ -16,6 +17,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(bodyParser.json())
+app.use(cookieParser(process.env.SECRET_KEY))
 
 app.use(fileUpload())
 app.use(express.urlencoded({ extended: true }));
@@ -54,7 +56,7 @@ app.get('/api/products/seasonal', (req, res) => {
 const start = async () => {
     try {
         await sequelize.authenticate()
-        await sequelize.sync({force: false})
+        await sequelize.sync({force: true})
         app.listen(PORT, () => console.log('Сервер запущен на порту 5433'));
 
     } catch(e) {

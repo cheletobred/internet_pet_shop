@@ -13,10 +13,10 @@ class Category {
 
     async getOne(req, res, next) {
         try {
-            if (!req.params.nameCat) {
+            if (!req.params.idCategory) {
                 throw new Error('Не указан id категории')
             }
-            const category = await CategoryModel.getOne(req.params.nameCat)
+            const category = await CategoryModel.getOne(req.params.idCategory)
             res.json(category)
         } catch(e) {
             next(AppError.badRequest(e.message))
@@ -34,10 +34,10 @@ class Category {
 
     async update(req, res, next) {
         try {
-            if (!req.params.nameCat) {
+            if (!req.params.idCategory) {
                 throw new Error('Не указан id категории')
             }
-            const category = await CategoryModel.update(req.params.nameCat, req.body)
+            const category = await CategoryModel.update(req.params.idCategory, req.body)
             res.json(category)
         } catch(e) {
             next(AppError.badRequest(e.message))
@@ -46,10 +46,10 @@ class Category {
 
     async delete(req, res, next) {
         try {
-            if (!req.params.nameCat) {
+            if (!req.params.idCategory) {
                 throw new Error('Не указан id категории')
             }
-            const category = await CategoryModel.delete(req.params.nameCat)
+            const category = await CategoryModel.delete(req.params.idCategory)
             res.json(category)
         } catch(e) {
             next(AppError.badRequest(e.message))

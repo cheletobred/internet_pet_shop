@@ -4,7 +4,7 @@ import AppError from '../errors/AppError.js'
 class Product {
     async getAll(req, res, next) {
         try {
-            const products = await ProductModel.getAll()
+            const products = await ProductModel.getAll(req.params)
             res.json(products)
         } catch(e) {
             next(AppError.badRequest(e.message))
@@ -65,7 +65,7 @@ class Product {
             next(AppError.badRequest(e.message))
         }
     }
-    async getSeasonal(req, res, next) {
+    /* async getSeasonal(req, res, next) {
         try {
             const { season } = req.query;
     
@@ -83,7 +83,17 @@ class Product {
         } catch (e) {
             next(AppError.badRequest(e.message));
         }
-    }
+    } */
+
+    async getBySeason(req, res, next) {
+        try {
+            const products = await ProductModel.getBySeason(req.params)
+            res.json(products)
+        } catch(e) {
+            next(AppError.badRequest(e.message))
+        }
+    }    
+        
 }
 
 export default new Product()

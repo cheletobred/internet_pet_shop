@@ -14,9 +14,37 @@ Content-type: application/json; charset=utf-8
     "volume": 2.0,
     "price": 100.00,
     "quantityStock": 3,
-    "season": "spring"
+    "season": "winter",
+    "idCategory": 1
 }
+###
 
+GET /api/product/getall/idCategory/1 HTTP/1.1
+Host: localhost:5433
+
+###
+
+### Создать новую категорию
+POST /api/category/create HTTP/1.1
+Host: localhost:5433
+Authorization: Bearer eyJhb...XVCJ9.eyJpZ...2NDR9.eDlzf...87TTA
+Content-type: application/json; charset=utf-8
+
+{
+    "nameCategory": "Первая категория"
+}
+###
+
+
+###
+
+GET /api/product/getall/getbyseason/winter HTTP/1.1
+Host: localhost:5433
+Content-type: application/json; charset=utf-8
+
+###
+
+DELETE /api/product/delete/1 HTTP/1.1
 ###
 
 PUT /api/product/update/1 HTTP/1.1
@@ -59,3 +87,30 @@ Content-Type: image/jpeg
 GET http://localhost:5433/api/products/seasonal?season=summer HTTP/1.1
 Accept: application/json
 
+### Регистрация нового пользователя
+POST /api/user/signup HTTP/1.1
+Host: localhost:5433
+Content-type: application/json; charset=utf-8
+
+{
+    "name": "John",
+    "sex": "Мужской",
+    "email": "user@mail.ru",
+    "password": "qwerty",
+    "role": "USER"
+}
+
+### Аутентификация (вход) пользователя
+POST /api/user/login HTTP/1.1
+Host: localhost:5433
+Content-type: application/json; charset=utf-8
+
+{
+    "email": "user@mail.ru",
+    "password": "qwerty"
+}
+
+### Список всех пользователей
+GET /api/user/getall HTTP/1.1
+Authorization: Bearer eyJhb...XVCJ9.eyJpZ...2NTZ9.D8CmI...VMU8Q
+Host: localhost:5433
