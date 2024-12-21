@@ -1,14 +1,28 @@
 function renderCart() {
-    const add_product_cart = document.querySelector('.cads');
-    add_product_cart.innerHTML = '';
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const add_product_cart = document.querySelector('.content')
+    add_product_cart.innerHTML = ''
+    const cart = JSON.parse(localStorage.getItem('cart')) || []
+    
     if (cart.length === 0) {
-        add_product_cart.innerHTML = '<p>Корзина пустая</p>';
-        return;
+        add_product_cart.innerHTML = '<p>Корзина пустая</p>'
+        calculate()
+        return
     }
-    cart.forEach(product => {
-        const card = document.createElement('div');
-        card.classList.add('card');
+
+    let string;
+
+    cart.forEach((product, index) => {
+        if (index % 4 === 0) {
+            string = document.createElement('div')
+            string.classList.add('string')
+            add_product_cart.appendChild(string)
+            cads = document.createElement('div')
+            cads.classList.add('cads')
+            add_product_cart.appendChild(cads)
+        }
+
+        const card = document.createElement('div')
+        card.classList.add('card')
 
         card.innerHTML = `
             <div class="button-delete-fav">
@@ -37,44 +51,112 @@ function renderCart() {
         `;
 
         card.querySelector('.delete-button').addEventListener('click', () => {
-            const updatedCart = cart.filter(item => item.article !== product.article);
-            localStorage.setItem('cart', JSON.stringify(updatedCart));
-            renderCart();
-            calculate();
+            const updatedCart = cart.filter(item => item.article !== product.article)
+            localStorage.setItem('cart', JSON.stringify(updatedCart))
+            renderCart()
+            calculate()
         });
 
         card.querySelector('.add').addEventListener('click', () => {
-            product.quantity += 1;
-            localStorage.setItem('cart', JSON.stringify(cart));
-            renderCart();
-            calculate();
+            product.quantity += 1
+            localStorage.setItem('cart', JSON.stringify(cart))
+            renderCart()
+            calculate()
         });
 
         card.querySelector('.del').addEventListener('click', () => {
             if (product.quantity > 1) {
-                product.quantity -= 1;
-                localStorage.setItem('cart', JSON.stringify(cart));
+                product.quantity -= 1
+                localStorage.setItem('cart', JSON.stringify(cart))
             } else {
-                const updatedCart = cart.filter(item => item.article !== product.article);
-                localStorage.setItem('cart', JSON.stringify(updatedCart));
+                const updatedCart = cart.filter(item => item.article !== product.article)
+                localStorage.setItem('cart', JSON.stringify(updatedCart))
             }
-            renderCart();
-            calculate();
+            renderCart()
+            calculate()
         });
 
-        add_product_cart.appendChild(card);
+        cads.appendChild(card)
         calculate()
-    });
+    })
 
     function calculate() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        let sum = 0;
+        const cart = JSON.parse(localStorage.getItem('cart')) || []
+        let sum = 0
         cart.forEach(product => {
-            sum += product.price * product.quantity;
+            sum += product.price * product.quantity
         });
-        const change_total_place = document.querySelector('.amount-total-price');
-        change_total_place.textContent = `${sum} P`;
+        const change_total_place = document.querySelector('.amount-total-price')
+        change_total_place.textContent = `${sum} P`
+        const change_total_place_menu = document.querySelector('.price')
+        change_total_place_menu.textContent = `${sum} р.`
     }
-}
 
-document.addEventListener('DOMContentLoaded', renderCart);
+
+    const add_to_fav = document.querySelectorAll('.fav-button')
+/// let flag =0
+    add_to_fav.forEach(button => {
+        button.addEventListener('click', () =>{
+            const card = button.closest('.card');
+            const article = card.querySelector('.article').textContent
+            const title = card.querySelector('.text-card').textContent
+            const button_price = card.querySelector('.price-card')
+            const price = button_price.querySelector('.text-card').textContent.replace(' Р', '')
+            const imgSrc = card.querySelector('img').src
+
+            const product = {article, title, price, imgSrc}
+
+            const favorite = JSON.parse(localStorage.getItem('favorite')) || []
+            const isProduct = favorite.find(item => item.article === product.article)
+            if (!isProduct) {
+                const img_fav = button.querySelector('.fav')
+                img_fav.src = 'png/fav1.png'
+                ///flag = 1
+                favorite.push(product)
+                showNotification("ТОВАР ДОБАВЛЕН В ИЗБРАННОЕ")
+                localStorage.setItem('favorite', JSON.stringify(favorite))
+            }
+            else {
+                const img_fav = button.querySelector('.fav')
+                img_fav.src = 'png/fav.png'
+                ///flag = 0
+                const updatedfav = favorite.filter(item => item.article !== product.article)
+                localStorage.setItem('favorite', JSON.stringify(updatedfav))
+                showNotification("ТОВАР УДАЛЕН ИЗ ИЗБРАННОГО")
+            }
+
+        })
+})
+
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message
+    notification.classList.add('show')
+    setTimeout(() => {
+        notification.classList.remove('show')
+    }, 3000)
+}
+}
+document.addEventListener('DOMContentLoaded', () => {
+    renderCart()
+    changeicon()
+});
+
+function changeicon() {
+    const favorite = JSON.parse(localStorage.getItem('favorite')) || []
+    const allFavButtons = document.querySelectorAll('.fav-button')
+    
+    allFavButtons.forEach(button => {
+        const card = button.closest('.card')
+        const article = card.querySelector('.article').textContent
+        const img_fav = button.querySelector('.fav')
+        
+        const isProduct = favorite.find(item => item.article === article)
+        if (isProduct) {
+            img_fav.src = 'png/fav1.png'
+        } 
+        else {
+            img_fav.src = 'png/fav.png'
+        }
+    })
+}
