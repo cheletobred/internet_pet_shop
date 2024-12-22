@@ -56,7 +56,7 @@ app.get('/api/products/seasonal', (req, res) => {
 const start = async () => {
     try {
         await sequelize.authenticate()
-        await sequelize.sync({force: true})
+        await sequelize.sync({force: false})
         app.listen(PORT, () => console.log('Сервер запущен на порту 5433'));
 
     } catch(e) {
