@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1059</width>
+    <height>902</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1061</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="mainBtn">
+      <property name="text">
+       <string>Главная</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="basketBtn">
+      <property name="text">
+       <string>Корзина</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="comboBox">
+      <item>
+       <property name="text">
+        <string>Кошки</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Собаки</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Грызуны</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Птицы</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
