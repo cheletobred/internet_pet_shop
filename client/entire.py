@@ -7,13 +7,17 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget, QMessageBox
+import requests
+from client.mainWindow import ShopApp
 
 
 class Entire(QWidget):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        self.entireBtn.clicked.connect(self.auth_user)
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(717, 352)
@@ -59,3 +63,27 @@ class Entire(QWidget):
         self.entireBtn.setText(_translate("Form", "Войти"))
         self.label_4.setText(_translate("Form", "Нет аккаунта?"))
         self.registrBtn.setText(_translate("Form", "Зарегестрироваться"))
+
+
+    def auth_user(self):   
+        data = {
+            "email": self.user_email.text(),
+            "password": self.user_pass.text()
+        }
+        registr_url = "http://localhost:8000/login/login"
+
+        try:
+            response = requests.post(registr_url, json=data)
+
+            if response.status_code == 200:
+                token = response.json().get('token')
+                self.mainWindow = ShopApp(token=token)
+                self.close()
+                self.mainWindow.show()
+            else:
+                QMessageBox.information(self, 'Ошибка', "Неверный пароль или почта")
+                print(response.text)
+                
+        except Exception as e:
+            QMessageBox.information(self, 'Ошибка', "Некорректные данные")
+            raise e    

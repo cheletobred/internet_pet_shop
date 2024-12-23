@@ -21,4 +21,10 @@ async def login(data: LoginDTO, conn=Depends(get_internal_conn)):
 async def create_user(user: UserCreateDTO, conn=Depends(get_internal_conn)):
     user_repo = UserRepo(conn)
     user_repo.create_user(user)
-    return {"message": "User created successfully"}
+    user = user_repo.get_user_by_email(user.email)
+    if user:
+        return {"token": encode_token(user.iduser, user.password)}
+    else:
+        raise HTTPException(status_code=401, detail="Error")
+
+

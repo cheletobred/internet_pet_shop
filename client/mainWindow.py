@@ -102,9 +102,10 @@ class CartItemWidget(QWidget):
 
 # Главное окно приложения
 class ShopApp(QWidget):
-    def __init__(self):
+    def __init__(self, token):
         super().__init__()
         self.init_ui()
+        self.token = token
         self.cart_items = {}  # Словарь товаров в корзине, ключ — id товара
         self.cart_window = CartWindow(self.remove_from_cart)
 

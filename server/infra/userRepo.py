@@ -44,6 +44,17 @@ class UserRepo:
         user = UserReadDTO(**user)
         cursor.close()
         return user
+    
+    def get_user_by_email(self, email) -> UserReadDTO:
+        query = """
+        SELECT * FROM users WHERE email = %s
+        """
+        cursor = self.conn.cursor()
+        cursor.execute(query, (email,))
+        user = cursor.fetchone()
+        user = UserReadDTO(**user) if user else None
+        cursor.close()
+        return user
 
     def validate_user(self, data: LoginDTO):
         query = """
@@ -76,7 +87,7 @@ class UserRepo:
         cursor.execute(query)
         items = cursor.fetchall()
         items = Cart(
-            Products=[ProductInCart(**item) for item in items], Итого=items[0]["Итого"]
+            Products=[ProductInCart(**item) for item in items], Итого=items[0]["Итого"] if items else "0"
         )
         cursor.close()
         return items

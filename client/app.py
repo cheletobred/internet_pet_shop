@@ -7,14 +7,14 @@ from PyQt6.QtWidgets import (
 from client.entire import Entire
 from client.registration import Registr
 
-class ShopApp(QWidget, Entire):
+class ShopApp(Entire):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.registration = Registr()
         self.entire = Entire()
 
-        self.entireBtn.clicked.connect(self.validation)
+        self.entireBtn.clicked.connect(self.auth_user)
         self.registrBtn.clicked.connect(self.show_registration_form)
     def validation(self):
         try:

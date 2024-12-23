@@ -7,15 +7,18 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget, QMessageBox
+import requests
+from client.mainWindow import ShopApp
 
 
 class Registr(QWidget):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-    def setupUi(self, Form):
 
+        self.registrButton.clicked.connect(self.register_user)
+    def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(664, 475)
         self.label = QtWidgets.QLabel(parent=Form)
@@ -67,4 +70,35 @@ class Registr(QWidget):
         self.label_5.setText(_translate("Form", "Выберете пол"))
         self.comboBox.setItemText(0, _translate("Form", "Мужской"))
         self.comboBox.setItemText(1, _translate("Form", "Женский"))
+        self.comboBox.setItemData(0, "Men")
+        self.comboBox.setItemData(1, "Women")
         self.registrButton.setText(_translate("Form", "Зарегестрироваться"))
+
+
+    def register_user(self):   
+        data = {
+            "name": self.user_name.text(),
+            "email": self.user_email.text(),
+            "sex": self.comboBox.currentData(),
+            "password": self.user_pass.text()
+        }
+        registr_url = "http://localhost:8000/login/register"
+        if not self.user_name.text().isascii() or any(letter.isnumeric() for letter in self.user_name.text()):
+            QMessageBox.information(self, 'Ошибка', "Имя может содержать только латинские буквы")
+            return
+
+        try:
+            response = requests.post(registr_url, json=data)
+
+            if response.status_code == 200:
+                token = response.json().get('token')
+                self.mainWindow = ShopApp(token=token)
+                self.close()
+                self.mainWindow.show()
+            else:
+                QMessageBox.information(self, 'Ошибка', "Неверный логин, пароль или почта")
+                print(response.text)
+                
+        except Exception as e:
+            QMessageBox.information(self, 'Ошибка', "Некорректные данные")
+            raise e
