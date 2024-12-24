@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import (
     QPushButton, QHBoxLayout, QMessageBox, QComboBox
 )
 import requests
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import QDate
 
 class ProductWidget(QWidget):
     def __init__(self, product_data, add_to_cart_callback):
@@ -40,8 +40,9 @@ class ProductWidget(QWidget):
 
 
 class CartWindow(QWidget):
-    def __init__(self, remove_from_cart_callback):
+    def __init__(self, remove_from_cart_callback, token):
         super().__init__()
+        self.token = token
         self.setWindowTitle("Корзина")
         self.setGeometry(400, 400, 600, 500)
         self.remove_from_cart_callback = remove_from_cart_callback
@@ -58,6 +59,28 @@ class CartWindow(QWidget):
 
         self.total_price_label = QLabel("Общая сумма: 0 руб.")
         self.layout.addWidget(self.total_price_label)
+
+        self.order_button = QPushButton("Оформить заказ")
+        self.order_button.clicked.connect(self.place_order)
+        self.layout.addWidget(self.order_button)
+
+    def place_order(self):
+
+        date_order = QDate.currentDate().toString("yyyy-MM-dd")
+        status_payment = 'Успешно'
+
+        user_order_url = f"http://127.0.0.1:8000/users/user_order?date_order={date_order}&status_payment={status_payment}&token={self.token}"
+        response = requests.post(user_order_url)
+
+        try:
+            response = requests.post(user_order_url)
+            print(response.status_code)
+            if response.status_code == 200:
+                QMessageBox.information(self, "Заказ успешно создан", "Ваш заказ успешно создан!")
+                #self.cart_items = []
+                self.update_cart(self.token)
+        except Exception as e:
+            QMessageBox.critical(self, "Ошибка", f"Ошибка создания заказа: {str(e)}")    
 
     def update_cart(self, token):
 
@@ -106,7 +129,7 @@ class ShopApp(QWidget):
         self.categories = self.get_categories()
         self.init_ui()
         self.cart_items = {} 
-        self.cart_window = CartWindow(self.remove_from_cart)
+        self.cart_window = CartWindow(self.remove_from_cart, token)
 
     def init_ui(self):
         self.setWindowTitle("Магазин")
@@ -124,15 +147,18 @@ class ShopApp(QWidget):
         container_widget.setLayout(self.product_container)
         self.scroll_area.setWidget(container_widget)
 
+        btn_layout = QHBoxLayout()
+        main_layout.addLayout(btn_layout)
+
         self.category_Box = QComboBox()
         self.category_Box.addItem("Все категории")
         self.category_Box.addItems(self.categories)
         self.category_Box.currentTextChanged.connect(self.filter_products)
-        main_layout.addWidget(self.category_Box)
+        btn_layout.addWidget(self.category_Box)
 
         open_cart_btn = QPushButton("Открыть корзину")
         open_cart_btn.clicked.connect(self.show_cart)
-        main_layout.addWidget(open_cart_btn)
+        btn_layout.addWidget(open_cart_btn)
 
         self.load_products()
 
@@ -140,14 +166,12 @@ class ShopApp(QWidget):
         categories_url = f"http://127.0.0.1:8000/product/categories?token={self.token}"
         response = requests.get(categories_url)
         data = response.json()
-        print(data)
         return data
 
     def load_products(self):
         products_url = f"http://127.0.0.1:8000/product/?token={self.token}"
         response = requests.get(products_url)
         data = response.json()
-        print(data)
         self.all_products = data
         self.filter_products()
 
@@ -161,7 +185,6 @@ class ShopApp(QWidget):
             self.all_products if selected_category == "Все категории"
             else 
             data
-            #[p for p in self.all_products if p['category'] == selected_category]
         )
 
         for i in reversed(range(self.product_container.count())):
@@ -175,12 +198,7 @@ class ShopApp(QWidget):
     def add_to_cart(self, product_data):
         add_to_cart_url = f"http://127.0.0.1:8000/users/cart?article={product_data['article']}&quantity=1&token={self.token}"
         response = requests.post(add_to_cart_url)
-        """ product_id = product_data['id']
-        if product_id in self.cart_items:
-            self.cart_items[product_id]['quantity'] += 1
-        else:
-            self.cart_items[product_id] = {**product_data, 'quantity': 1}
- """
+
     def remove_from_cart(self, product_data):
         try:
             remove_from_cart_url = f"http://127.0.0.1:8000/users/cart?article={product_data['article']}&token={self.token}"
@@ -189,11 +207,7 @@ class ShopApp(QWidget):
 
         except Exception as e:
             QMessageBox.critical(self, "Ошибка", f"Не удалось удалить товар: {str(e)}")    
-        """ product_id = product_data['id']
-        if product_id in self.cart_items:
-            del self.cart_items[product_id]
-        self.cart_window.update_cart(self.cart_items.values())
- """
+
     def show_cart(self):
         self.cart_window.update_cart(self.token)
         self.cart_window.show()

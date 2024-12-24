@@ -2,7 +2,7 @@ from fastapi import HTTPException
 import psycopg
 from infra.models.user import UserCreateDTO, UserReadDTO, LoginDTO
 from server.infra.models.product import Cart, ProductInCart
-
+from datetime import date
 
 class UserRepo:
     def __init__(self, connection: psycopg.Connection):
@@ -95,7 +95,7 @@ class UserRepo:
     def add_to_cart(self, article: int, quantity: int):
         query = """
         SELECT * FROM add_product_cart(%s, %s)
-"""
+        """
 
         with self.conn.cursor() as cur:
             cur.execute(query, (article, quantity))
@@ -106,12 +106,39 @@ class UserRepo:
     def remove_from_cart(self, article: int):
         query = """
         DELETE FROM cart_product WHERE idcart = (SELECT idcart FROM users INNER JOIN cart USING(iduser)
-	WHERE name=current_user) AND article = %s;
-
-"""
+	    WHERE name=current_user) AND article = %s;
+        """
 
         with self.conn.cursor() as cur:
             cur.execute(query, (article,))
             cur.execute("SELECT current_user")
             print(cur.fetchone())
             cur.connection.commit()
+
+
+    def create_order(self, name: str, date_order: date, status_payment: str):
+        query = """
+        CALL add_order_make_pay(%s, %s, %s);
+        """
+        """ cursor = self.conn.cursor()
+        cursor.execute(query, (name, date_order, status_payment))
+        cursor.connection.commit()
+        cursor.close()
+        #self.conn.commit() """
+
+        cursor = self.conn.cursor()
+        try:
+            cursor.execute("SAVEPOINT savepoint_make_pay")
+
+            cursor.execute(query, (name, date_order, status_payment))
+        except psycopg.errors.RaiseException:
+            cursor.execute("ROLLBACK TO SAVEPOINT savepoint_make_pay")
+        except Exception as e:
+            cursor.execute("ROLLBACK TO SAVEPOINT savepoint_make_pay")
+            raise e
+        else:
+            cursor.execute("RELEASE SAVEPOINT savepoint_make_pay")
+        finally:
+            cursor.connection.commit()
+            cursor.close()
+    

@@ -11,6 +11,7 @@ from infra.dependencies import (
 from infra.models.user import UserCreateDTO
 from server.infra.models.product import Cart
 from server.infra.userRepo import UserRepo
+from datetime import date
 
 
 user_router = APIRouter(prefix="/users", tags=["User"])
@@ -42,3 +43,10 @@ async def add_to_cart(article: int, quantity: int, conn=Depends(get_connection))
 async def add_to_cart(article: int, conn=Depends(get_connection)):
     user_repo = UserRepo(conn)
     return user_repo.remove_from_cart(article)
+
+@user_router.post("/user_order")
+async def get_user_by_token(date_order:date, status_payment: str, id: int = Depends(get_current_user), conn = Depends(get_connection)):
+    user_repo = UserRepo(conn)
+    user = user_repo.get_user_by_id(id)
+    name = user.name
+    return user_repo.create_order(name, date_order, status_payment)
