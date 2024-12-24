@@ -13,7 +13,7 @@ class Product(BaseModel):
     price: float
     quantitystock: int
     season: Literal["winter", "summer", "autom", "spring", "universal"]
-    idcategory: int
+    namecategory: str
 
 
 class ProductInCart(BaseModel):
