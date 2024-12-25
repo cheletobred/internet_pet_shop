@@ -9,7 +9,7 @@ class ProductRepo:
 
     def get_all(self):
         query = """
-        SELECT article, nameproduct, description, volume, size, country, age, price, quantitystock, image, season, idcategory
+        SELECT article, nameproduct, volume, size, country, age, price, quantitystock, season, idcategory
 	FROM public.products;
         """
         with self.conn.cursor() as cur:

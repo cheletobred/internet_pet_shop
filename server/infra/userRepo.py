@@ -120,12 +120,7 @@ class UserRepo:
         query = """
         CALL add_order_make_pay(%s, %s, %s);
         """
-        """ cursor = self.conn.cursor()
-        cursor.execute(query, (name, date_order, status_payment))
-        cursor.connection.commit()
-        cursor.close()
-        #self.conn.commit() """
-
+        
         cursor = self.conn.cursor()
         try:
             cursor.execute("SAVEPOINT savepoint_make_pay")
